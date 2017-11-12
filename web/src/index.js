@@ -6,6 +6,7 @@ import {Provider} from 'react-redux';
 import {createStore, applyMiddleware} from 'redux';
 import App from './App';
 import SchoolTW from './components/layout';
+import GrowthDiary from './components/growth-diary';
 import registerServiceWorker from './registerServiceWorker';
 
 import reducer from './reducers/index.js';
@@ -25,6 +26,7 @@ ReactDOM.render(<Provider store={store}>
     <Router>
         <div>
             <Route exact path="/" component={Page}/>
+            <Route path="/diary" component={GrowthDiary}/>
         </div>
     </Router>
 </Provider>, document.getElementById('root'));

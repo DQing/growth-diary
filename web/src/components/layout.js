@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import '../less/layout.css';
 import {connect} from 'react-redux';
 import {Breadcrumb, Layout, Menu, Icon} from 'antd';
+import GrowthDiary from './growth-diary';
 
 const {Content, Sider} = Layout;
 
@@ -13,7 +14,7 @@ class SchoolTW extends Component {
     displayMenu(menu) {
         switch (menu){
             case "DIARY_PAGE":
-                return <p>成长日志</p>;
+                return <GrowthDiary/>;
             case  "FOLLOWED_PAGE":
                 return <p>我的关注</p>
             case  "EXCELLENCE_DIARY":
