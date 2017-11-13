@@ -1,28 +1,26 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {DatePicker, Row, Col, Input, Form, Button} from 'antd';
-import moment from 'moment';
+import * as action from '../actions/growth-diary';
 import '../less/growth-diary.css'
 
 const FormItem = Form.Item;
 
 class GrowthDiary extends Component {
+    handleSubmit = (e) => {
+        e.preventDefault();
+        const values = this.props.form.getFieldsValue();
+        const date = values.date.format('YYYY/MM/DD');
+        const {content} = values;
+        this.props.addDiary({date: new Date(date), content, userId: 1});
+        console.log(date, content);
+    }
+
+
     render() {
         const {TextArea} = Input;
         const dateFormat = 'YYYY/MM/DD';
-        // return <Row>
-        //     <Col span={8} offset={5} >
-        //         <div>
-        //             <span className='dateText'>日期</span>
-        //             <DatePicker defaultValue={moment('2017/11/12', dateFormat)} format={dateFormat} size="large"/>
-        //         </div>
-        //         <div>
-        //             <span className='diaryText'>日志内容</span><TextArea rows={4}/>
-        //
-        //         </div>
-        //
-        //     </Col>
-        // </Row>;
+        const {getFieldDecorator} = this.props.form;
 
         const formItemLayout = {
             labelCol: {
@@ -49,16 +47,19 @@ class GrowthDiary extends Component {
 
         return <Row>
             <Col span={13} offset={5}>
-                <Form>
+                <Form onSubmit={this.handleSubmit}>
                     <FormItem {...formItemLayout} label="日期">
-                        <DatePicker defaultValue={moment('2017/11/12', dateFormat)} format={dateFormat} size="large"/>
+                        {getFieldDecorator('date')
+                        (<DatePicker format={dateFormat}
+                                     size="large"/>)}
                     </FormItem>
                     <FormItem {...formItemLayout} label="日志内容">
-                        <TextArea rows={5}/>
+                        {getFieldDecorator('content')
+                        (<TextArea rows={5}/>)}
                     </FormItem>
 
                     <FormItem {...tailFormItemLayout}>
-                        <Button type="primary" className='primaryButton'>提交</Button>
+                        <Button type="primary" htmlType="submit" className='primaryButton'>提交</Button>
                         <Button>取消</Button>
                     </FormItem>
                 </Form>
@@ -67,4 +68,17 @@ class GrowthDiary extends Component {
     }
 }
 
-export default connect()(GrowthDiary);
+const mapStateToProps = (state) => {
+    return {};
+};
+
+const mapDispatchToprops = (dispatch) => {
+    return {
+        addDiary: (diary) => {
+            dispatch(action.addDiary(diary));
+        }
+    };
+
+};
+
+export default connect(mapStateToProps, mapDispatchToprops)(Form.create()(GrowthDiary));

@@ -1,0 +1,19 @@
+version: '2'
+services:
+  db:
+    image: mysql:5.5
+    container_name: growthDiary
+    restart: always
+    ports:
+      - 3306:3306
+    environment:
+      - MYSQL_USER=growthDiary
+      - MYSQL_DATABASE=growthDiary
+      - MYSQL_ROOT_PASSWORD=111111
+      - MYSQL_PASSWORD=111111
+    networks:
+      main:
+        aliases:
+          - growthDiary
+networks:
+  main:
