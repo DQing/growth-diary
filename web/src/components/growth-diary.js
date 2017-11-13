@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {DatePicker, Row, Col, Input, Form, Button} from 'antd';
+import {DatePicker, Row, Col, Card, Input, Form, Button} from 'antd';
 import * as action from '../actions/growth-diary';
 import '../less/growth-diary.css'
 
@@ -12,8 +12,7 @@ class GrowthDiary extends Component {
         const values = this.props.form.getFieldsValue();
         const date = values.date.format('YYYY/MM/DD');
         const {content} = values;
-        this.props.addDiary({date: new Date(date), content, userId: 1});
-        console.log(date, content);
+        this.props.addDiary({date: new Date(date), content, userId: this.props.userId});
     }
 
 
@@ -45,34 +44,32 @@ class GrowthDiary extends Component {
             }
         }
 
-        return <Row>
-            <Col span={13} offset={5}>
-                <Form onSubmit={this.handleSubmit}>
-                    <FormItem {...formItemLayout} label="日期">
-                        {getFieldDecorator('date')
-                        (<DatePicker format={dateFormat}
-                                     size="large"/>)}
-                    </FormItem>
-                    <FormItem {...formItemLayout} label="日志内容">
-                        {getFieldDecorator('content')
-                        (<TextArea rows={5}/>)}
-                    </FormItem>
+        return <Form onSubmit={this.handleSubmit}>
+                <FormItem {...formItemLayout} label="日期">
+                    {getFieldDecorator('date')
+                    (<DatePicker format={dateFormat}
+                                 size="large"/>)}
+                </FormItem>
+                <FormItem {...formItemLayout} label="日志内容">
+                    {getFieldDecorator('content')
+                    (<TextArea rows={5}/>)}
+                </FormItem>
 
-                    <FormItem {...tailFormItemLayout}>
-                        <Button type="primary" htmlType="submit" className='primaryButton'>提交</Button>
-                        <Button>取消</Button>
-                    </FormItem>
-                </Form>
-            </Col>
-        </Row>
+                <FormItem {...tailFormItemLayout}>
+                    <Button type="primary" size="small" ghost htmlType="submit" className='primaryButton'>提交</Button>
+                    <Button size="small">取消</Button>
+                </FormItem>
+            </Form>
     }
 }
 
 const mapStateToProps = (state) => {
-    return {};
+    return {
+        userId: state.showDiaries.userId
+    };
 };
 
-const mapDispatchToprops = (dispatch) => {
+const mapDispatchToProps = (dispatch) => {
     return {
         addDiary: (diary) => {
             dispatch(action.addDiary(diary));
@@ -81,4 +78,4 @@ const mapDispatchToprops = (dispatch) => {
 
 };
 
-export default connect(mapStateToProps, mapDispatchToprops)(Form.create()(GrowthDiary));
+export default connect(mapStateToProps, mapDispatchToProps)(Form.create()(GrowthDiary));

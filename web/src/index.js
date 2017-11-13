@@ -7,6 +7,8 @@ import {createStore, applyMiddleware} from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import SchoolTW from './components/layout';
 import GrowthDiary from './components/growth-diary';
+import ShowDiary from './components/show-diaries';
+import Card from './components/card';
 import registerServiceWorker from './registerServiceWorker';
 
 import reducer from './reducers/index.js';
@@ -14,10 +16,19 @@ import App from "./App";
 
 const store = createStore(reducer, applyMiddleware(thunkMiddleware));
 
+const Parent = () => {
+    return <div>
+        <Card>
+            <Route component={GrowthDiary}/>
+        </Card>
+        <Route component={ShowDiary}/>
+    </div>
+}
+
 ReactDOM.render(<Provider store={store}>
     <Router>
         <SchoolTW>
-            <Route exac path="/diary" component={GrowthDiary}/>
+            <Route exac path="/diary" component={Parent}/>
             <Route path="/app" component={App}/>
         </SchoolTW>
     </Router>
