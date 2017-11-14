@@ -10,6 +10,7 @@ import GrowthDiary from './components/growth-diary';
 import ShowDiary from './components/show-diaries';
 import Card from './components/card';
 import Comment from './components/comment';
+import Followed from './components/followed';
 import registerServiceWorker from './registerServiceWorker';
 
 import reducer from './reducers/index.js';
@@ -33,6 +34,7 @@ ReactDOM.render(<Provider store={store}>
         <SchoolTW>
             <Route exac path="/diary" component={Parent}/>
             <Route path="/app" component={App}/>
+            <Route path="/followed" component={Followed}/>
         </SchoolTW>
     </Router>
 </Provider>, document.getElementById('root'));

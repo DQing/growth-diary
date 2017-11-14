@@ -2,10 +2,10 @@ import * as request from '../constant/fetch-request';
 
 export const getDiariesBack = diaries => {
     return {
-        type:"DIARIES",
+        type: "DIARIES",
         diaries
     }
-}
+};
 
 export const getDiaries = userId => {
     return dispatch => {
@@ -20,7 +20,7 @@ export const getDiaries = userId => {
 
 export const deleteDiary = (id, userId) => {
     return dispatch => {
-        (async() => {
+        (async () => {
             const res = await request.onDelete(`/api/diary/${id}`);
             if (res.status === 200) {
                 dispatch(getDiaries(userId));

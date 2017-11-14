@@ -36,7 +36,7 @@ class MenuList extends Component {
     render() {
         return <Menu mode="inline"
                      defaultSelectedKeys={['DIARY_PAGE']}
-                     style={{height: '100%'}} >
+                     style={{height: '100%'}}>
             <Menu.Item key="DIARY_PAGE">
                 <Link to="/diary">
                     <Icon type="user"/>
@@ -44,8 +44,9 @@ class MenuList extends Component {
                 </Link>
             </Menu.Item>
             <Menu.Item key="FOLLOWED_PAGE">
-                <Icon type="user"/>
-                <span>我的关注</span>
+                <Link to='/followed'><Icon type="user"/>
+                    <span>我的关注</span>
+                </Link>
             </Menu.Item>
             <Menu.Item key="EXCELLENCE_DIARY">
                 <Link to="/app">
@@ -59,13 +60,11 @@ class MenuList extends Component {
 }
 
 const mapStateToProps = (state) => {
-    return {
-    };
+    return {};
 };
 
 const mapDispatchToProps = (dispatch) => {
-    return {
-    };
+    return {};
 };
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(SchoolTW));

@@ -8,4 +8,8 @@ import java.util.List;
 public interface DiaryRepository extends JpaRepository<Diary,Long>{
 
     List<Diary> findByUserId(Long id);
+
+    long countByUserId(Long id);
+
+    List<Diary> findByUserIdOrderByDateDesc(Long id);
 }
