@@ -13,17 +13,23 @@ class Followed extends Component {
     }
 
     followInput(value) {
-        console.log(value);
-        this.props.findUsers(value);
+        if (value === "") {
+            return;
+        }
+        this.props.findUsers(value, this.props.userId);
     }
 
+    toggleFollow(opt) {
+        
+        console.log(opt);
+    }
 
     render() {
 
         const options = this.props.users.map(opt => (
             <Option key={opt.id} value={opt.name}>
                 {opt.name}
-                <span className="certain-search-item-count">{0}人关注</span>
+                <span className="certain-search-item-count" onClick={this.toggleFollow.bind(this, opt)}>{opt.isFollowed ? "取消关注" : "关注"}</span>
             </Option>
         ));
 
@@ -86,8 +92,8 @@ const mapDispatchToProps = (dispatch) => {
 
             dispatch(action.getFollowers(id));
         },
-        findUsers: (value) => {
-            dispatch(action.findUsers(value));
+        findUsers: (value, id) => {
+            dispatch(action.findUsers(value, id));
         }
     }
 };

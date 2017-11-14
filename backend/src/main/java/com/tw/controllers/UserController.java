@@ -1,6 +1,8 @@
 package com.tw.controllers;
 
+import com.tw.entities.Followed;
 import com.tw.entities.User;
+import com.tw.repositories.FollowedRepository;
 import com.tw.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,17 +22,26 @@ public class UserController {
 
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private FollowedRepository followedRepository;
 
-    @RequestMapping(value = "/api/user/{value}", method = RequestMethod.GET)
-    public ResponseEntity findUsers(@PathVariable("value") String value) {
+    @RequestMapping(value = "/api/user/{value}/{id}", method = RequestMethod.GET)
+    public ResponseEntity findUsers(@PathVariable("value") String value, @PathVariable("id") Long id) {
 
         List<User> users = userRepository.findByNameContaining(value);
         List<Map> newUsers = new ArrayList<>();
 
         for (User user : users) {
+            Followed followed = followedRepository.findByUserIdAndFollowedUserId(id, user.getId());
+            boolean isFollowed = true;
+            if (followed == null) {
+                isFollowed = false;
+            }
+
             Map<String, Object> u = new HashMap<>();
             u.put("id", user.getId());
             u.put("name", user.getName());
+            u.put("isFollowed", isFollowed);
             newUsers.add(u);
         }
 

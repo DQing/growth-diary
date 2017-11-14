@@ -26,10 +26,10 @@ export const getFollowers = (userId) => {
     }
 };
 
-export const findUsers = (value) => {
+export const findUsers = (value, id) => {
     return dispatch => {
         (async () => {
-            const res = await request.get(`/api/user/${value}`);
+            const res = await request.get(`/api/user/${value}/${id}`);
             if (res.status === 200) {
                 console.log(res.body);
                 dispatch(findUserBack(res.body));
