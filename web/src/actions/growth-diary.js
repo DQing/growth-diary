@@ -11,3 +11,14 @@ export const addDiary = diary => {
         })()
     }
 };
+
+export const modifyDiary = diary => {
+    return dispatch => {
+        (async () => {
+            const res = await request.put('/api/diary', diary);
+            if (res.status === 200) {
+                dispatch(action.getDiaries(diary.userId));
+            }
+        })();
+    }
+}

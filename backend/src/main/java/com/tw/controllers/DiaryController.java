@@ -24,10 +24,7 @@ public class DiaryController {
         if (!diaryRepository.exists(back.getId())) {
             throw new AppearException("保存失败！");
         }
-        ResponseEntity a = new ResponseEntity<>(HttpStatus.CREATED);
-        System.out.print(a);
-
-        return a;
+        return  new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @RequestMapping(value = "/api/diary/{id}", method = RequestMethod.GET)
@@ -46,5 +43,20 @@ public class DiaryController {
         }
 
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/api/diary", method = RequestMethod.PUT)
+    public ResponseEntity updateDiary(@RequestBody Diary diary) throws Exception {
+        Diary oldDiary = diaryRepository.findOne(diary.getId());
+
+        oldDiary.setDate(diary.getDate());
+        oldDiary.setContent(diary.getContent());
+
+        Diary back = diaryRepository.save(oldDiary);
+
+        if (!diaryRepository.exists(back.getId())) {
+            throw new AppearException("更新失败！");
+        }
+        return  new ResponseEntity<>(HttpStatus.OK);
     }
 }

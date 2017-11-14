@@ -4,16 +4,10 @@ import {connect} from 'react-redux';
 import {Card, Icon, Button, Row, Col, Popconfirm} from 'antd';
 import * as action from '../actions/show-diaries';
 import GrowthDiary from './growth-diary';
+import {withRouter} from 'react-router';
+
 
 class ShowDiary extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            array:[]
-        }
-
-    }
-
     componentWillMount() {
 
         this.props.getDiaries(this.props.userId);
@@ -24,24 +18,19 @@ class ShowDiary extends Component {
     }
 
     changeView(id) {
-        const array = this.state.array;
-        array.push(id);
-        this.setState({
-            array:array
-        });
+        this.props.addHiddenArray(id);
     }
 
     render() {
 
-        let title = "";
         return <div>
             {
                 this.props.diaries.map((d, i) => {
 
-                    title = new Date(d.date).toLocaleDateString();
+                    const title = new Date(d.date).toLocaleDateString();
 
                     return <div key={i}>
-                        <Card className={this.state.array.some(a => a === d.id) ? "hidden" : "tws-card"}
+                        <Card className={this.props.hiddenArray.some(a => a === d.id) ? "hidden" : "tws-card"}
                               noHovering
                               title={title}
                               extra={<Popconfirm title="是否删除？" onConfirm={this.deleteDiary.bind(this, d.id)}><Icon
@@ -63,8 +52,8 @@ class ShowDiary extends Component {
                                 </Col>
                             </Row>
                         </Card>
-                        <Card className={this.state.array.some(a => a === d.id) ? "tws-card" : "hidden"} title="修改日志">
-                            <GrowthDiary />
+                        <Card className={this.props.hiddenArray.some(a => a === d.id) ? "tws-card" : "hidden"} title="修改日志">
+                            <GrowthDiary flag="modify" diary={d}/>
                         </Card>
                     </div>
                 })
@@ -76,7 +65,8 @@ class ShowDiary extends Component {
 const mapStateToProps = (state) => {
     return {
         diaries: state.showDiaries.diaries,
-        userId: state.showDiaries.userId
+        userId: state.showDiaries.userId,
+        hiddenArray: state.showDiaries.hiddenArray
     }
 };
 const mapDispatchToProps = (dispatch) => {
@@ -86,9 +76,12 @@ const mapDispatchToProps = (dispatch) => {
         },
         onDeleteDiary: (id, userId) => {
             dispatch(action.deleteDiary(id, userId));
+        },
+        addHiddenArray: (id) => {
+            dispatch({type: "ADD_HIDDEN", id});
         }
     }
 }
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(ShowDiary);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(ShowDiary));
