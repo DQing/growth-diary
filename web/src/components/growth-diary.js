@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
-import {DatePicker, Row, Col, Card, Input, Form, Button} from 'antd';
+import {DatePicker, Input, Form, Button} from 'antd';
 import * as action from '../actions/growth-diary';
 import moment from 'moment';
 import '../less/growth-diary.css'
