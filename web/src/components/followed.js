@@ -12,24 +12,18 @@ class Followed extends Component {
         this.props.getFollowers(this.props.userId);
     }
 
+    followInput(value) {
+        console.log(value);
+        this.props.findUsers(value);
+    }
+
 
     render() {
 
-        const dataSource = [
-            {
-                title: 'AntDesign',
-                count: 10000,
-            }, {
-                title: 'AntDesign UI',
-                count: 10600,
-            },
-        ];
-
-
-        const options = dataSource.map(opt => (
-            <Option key={opt.title} value={opt.title}>
-                {opt.title}
-                <span className="certain-search-item-count">{opt.count}人关注</span>
+        const options = this.props.users.map(opt => (
+            <Option key={opt.id} value={opt.name}>
+                {opt.name}
+                <span className="certain-search-item-count">{0}人关注</span>
             </Option>
         ));
 
@@ -45,9 +39,8 @@ class Followed extends Component {
                         style={{width: '100%'}}
                         dataSource={options}
                         placeholder="input here"
-                        optionLabelProp="value"
-                    >
-                        <Input suffix={<Icon type="search" className="certain-category-icon"/>}/>
+                        optionLabelProp="value" onChange={this.followInput.bind(this)}>
+                        <Input ref="followed" suffix={<Icon type="search" className="certain-category-icon"/>}/>
                     </AutoComplete>
                 </Col>
             </Row>
@@ -82,7 +75,8 @@ class Followed extends Component {
 const mapStateToProps = (state) => {
     return {
         followers: state.followed.followers,
-        userId: state.showDiaries.userId
+        userId: state.showDiaries.userId,
+        users: state.user.users
     };
 };
 
@@ -91,6 +85,9 @@ const mapDispatchToProps = (dispatch) => {
         getFollowers: (id) => {
 
             dispatch(action.getFollowers(id));
+        },
+        findUsers: (value) => {
+            dispatch(action.findUsers(value));
         }
     }
 };

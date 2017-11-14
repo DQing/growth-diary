@@ -7,6 +7,13 @@ export const getFollowersBack = (followers) => {
     }
 };
 
+export const findUserBack = (users) => {
+    return {
+        type: 'FIND_USERS',
+        users
+    }
+}
+
 export const getFollowers = (userId) => {
 
     return dispatch => {
@@ -18,3 +25,15 @@ export const getFollowers = (userId) => {
         })();
     }
 };
+
+export const findUsers = (value) => {
+    return dispatch => {
+        (async () => {
+            const res = await request.get(`/api/user/${value}`);
+            if (res.status === 200) {
+                console.log(res.body);
+                dispatch(findUserBack(res.body));
+            }
+        })();
+    }
+}
