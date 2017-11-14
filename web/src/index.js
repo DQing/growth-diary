@@ -9,7 +9,7 @@ import SchoolTW from './components/layout';
 import GrowthDiary from './components/growth-diary';
 import ShowDiary from './components/show-diaries';
 import Card from './components/card';
-import Commit from './components/commit';
+import Comment from './components/comment';
 import registerServiceWorker from './registerServiceWorker';
 
 import reducer from './reducers/index.js';
@@ -23,7 +23,7 @@ const Parent = () => {
             <Route component={GrowthDiary}/>
         </Card>
         <ShowDiary>
-            <Route component={Commit}/>
+            <Route component={Comment} />
         </ShowDiary>
     </div>
 }

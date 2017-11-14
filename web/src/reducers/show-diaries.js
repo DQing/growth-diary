@@ -1,4 +1,4 @@
-export default (state = {diaries: [], userId: 1, hiddenModifyInputArray: [], commitInputArray: []}, action) => {
+export default (state = {diaries: [], userId: 1, hiddenModifyInputArray: [], commentInputArray: [], currentDiaryId: 0}, action) => {
 
     switch (action.type) {
         case "DIARIES":
@@ -11,7 +11,8 @@ export default (state = {diaries: [], userId: 1, hiddenModifyInputArray: [], com
                 diaries: [...state.diaries],
                 hiddenModifyInputArray: [...state.hiddenModifyInputArray],
                 userId: 1,
-                commitInputArray: [...state.commitInputArray]
+                commentInputArray: [...state.commentInputArray],
+                currentDiaryId: state.currentDiaryId
             };
         case "DELETE_HIDDEN":
             const index = state.hiddenModifyInputArray.indexOf(action.id);
@@ -20,20 +21,22 @@ export default (state = {diaries: [], userId: 1, hiddenModifyInputArray: [], com
                 diaries: [...state.diaries],
                 hiddenModifyInputArray: [...state.hiddenModifyInputArray],
                 userId: 1,
-                commitInputArray: [...state.commitInputArray]
+                commentInputArray: [...state.commentInputArray],
+                currentDiaryId: state.currentDiaryId
             };
 
         case "ADD_DISPLAY":
-            if(state.commitInputArray.some(c => c === action.id)) {
+            if(state.commentInputArray.some(c => c === action.id)) {
                 return state;
             }
-            state.commitInputArray.push(action.id);
+            state.commentInputArray.push(action.id);
 
             return {
                 diaries: [...state.diaries],
                 hiddenModifyInputArray: [...state.hiddenModifyInputArray],
                 userId: 1,
-                commitInputArray: [...state.commitInputArray]
+                commentInputArray: [...state.commentInputArray],
+                currentDiaryId: action.id
             };
 
         default:

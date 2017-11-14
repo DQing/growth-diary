@@ -5,7 +5,11 @@ import {Form, Button, Input} from 'antd';
 const FormItem = Form.Item;
 const TextArea = Input.TextArea;
 
-class Commit extends Component {
+class Comment extends Component {
+
+    constructor(props) {
+        super(props);
+    }
 
     render() {
 
@@ -32,10 +36,11 @@ class Commit extends Component {
                 }
             }
         };
+        console.log(this.props.diaryId);
         return <div>
             <Form onSubmit={this.handleSubmit}>
                 <FormItem {...formItemLayout} label="评论">
-                    {getFieldDecorator('commit')
+                    {getFieldDecorator('comment')
                     (<TextArea rows={3}/>)}
                 </FormItem>
                 <FormItem {...tailFormItemLayout}>
@@ -48,4 +53,18 @@ class Commit extends Component {
     }
 }
 
-export default connect()(Form.create()(Commit));
+const mapStateToProps = (state) => {
+    return {
+        diaryId: state.showDiaries.currentDiaryId
+    }
+};
+const mapDispatchToProps = (dispatch) => {
+    return {
+        submitCommit: () => {
+
+        }
+
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Form.create()(Comment));
